@@ -30,12 +30,12 @@ BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background
 
 def main():
     run = True
-    fps = 60
+    fps = 30
     level = 0
     lives = 5
     main_font= pygame.font.SysFont("comicsans", 50)
 
-    player_vel = 5
+    player_vel = 16
 
     ship = Ship(300, 650)
     clock = pygame.time.Clock()
@@ -64,9 +64,17 @@ def main():
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            ship.x -= player_vel
+            # move with player_vel until reach origin it can do last move to reach 0
+            if ship.x - player_vel > 0:
+                ship.x -= player_vel
+            elif ship.x > 0:
+                ship.x = 0
         if keys[pygame.K_RIGHT]:
-            ship.x += player_vel
+            if ship.x < WIDTH - ship.w:
+                ship.x += player_vel
+            else:
+                ship.x = WIDTH - ship.w
+            print(ship.x)
         if keys[pygame.K_UP]:
             ship.y -= player_vel
         if keys[pygame.K_DOWN]:
