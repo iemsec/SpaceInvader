@@ -62,6 +62,7 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
+        # method get_pressed return a dict of all key if pressed or not
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             # move with player_vel until reach origin it can do last move to reach 0
