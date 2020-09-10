@@ -2,6 +2,8 @@ import pygame
 import os
 import time
 import random
+
+from player import Player
 from ship import Ship
 
 pygame.font.init()
@@ -37,7 +39,7 @@ def main():
 
     player_vel = 16
 
-    ship = Ship(300, 650)
+    player = Player(300, 650, YELLOW_SPACE_SHIP, YELLOW_LASER)
     clock = pygame.time.Clock()
 
     def redraw_window():
@@ -50,7 +52,7 @@ def main():
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
 
         # draw ship
-        ship.draw(WIN)
+        player.draw(WIN)
 
         pygame.display.update()
 
@@ -66,20 +68,25 @@ def main():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             # move with player_vel until reach origin it can do last move to reach 0
-            if ship.x - player_vel > 0:
-                ship.x -= player_vel
-            elif ship.x > 0:
-                ship.x = 0
-        if keys[pygame.K_RIGHT]:
-            if ship.x < WIDTH - ship.w:
-                ship.x += player_vel
+            if player.x - player_vel > 0:
+                player.x -= player_vel
             else:
-                ship.x = WIDTH - ship.w
-            print(ship.x)
+                player.x = 0
+        if keys[pygame.K_RIGHT]:
+            if player.x < WIDTH - player.get_ship_width():
+                player.x += player_vel
+            else:
+                player.x = WIDTH - player.get_ship_width()
         if keys[pygame.K_UP]:
-            ship.y -= player_vel
+            if player.y - player_vel > 0:
+                player.y -= player_vel
+            else:
+                player.y = 0
         if keys[pygame.K_DOWN]:
-            ship.y += player_vel
+            if player.y < HEIGHT - player.get_ship_height():
+                player.y += player_vel
+            else:
+                player.y = HEIGHT - player.get_ship_height()
 
 
 if __name__ == '__main__':
