@@ -44,6 +44,7 @@ def main():
     lives = 5
     main_font= pygame.font.SysFont("comicsans", 50)
 
+    # Define enemies
     enemies = []
     for i in range(10):
         color = random.choice(tuple(COLOR_MAP.keys()))
@@ -52,13 +53,10 @@ def main():
         vel = random.randint(4, 7)
         enemies.append(Enemy(x, y, (COLOR_MAP[color]), vel))
 
-
-
     player_vel = 5
 
     # define the player
     player = Player(300, 650, YELLOW_SPACE_SHIP, YELLOW_LASER)
-
 
     clock = pygame.time.Clock()
 
