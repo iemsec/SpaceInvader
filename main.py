@@ -3,8 +3,10 @@ import os
 import time
 import random
 
-from player import Player
 from ship import Ship
+from player import Player
+from enemy import Enemy
+
 
 pygame.font.init()
 
@@ -29,6 +31,11 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 # Background
 BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
+COLOR_MAP = {
+    "red":(RED_SPACE_SHIP,RED_LASER),
+    "green":(GREEN_SPACE_SHIP,GREEN_LASER),
+    "blue":(BLUE_SPACE_SHIP,BLUE_LASER)
+            }
 
 def main():
     run = True
@@ -37,9 +44,22 @@ def main():
     lives = 5
     main_font= pygame.font.SysFont("comicsans", 50)
 
-    player_vel = 16
+    enemies = []
+    for i in range(10):
+        color = random.choice(tuple(COLOR_MAP.keys()))
+        x = random.randint(0, WIDTH)
+        y = random.randint(-1500, 0)
+        vel = random.randint(4, 7)
+        enemies.append(Enemy(x, y, (COLOR_MAP[color]), vel))
 
+
+
+    player_vel = 5
+
+    # define the player
     player = Player(300, 650, YELLOW_SPACE_SHIP, YELLOW_LASER)
+
+
     clock = pygame.time.Clock()
 
     def redraw_window():

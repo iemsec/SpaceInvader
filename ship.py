@@ -15,7 +15,6 @@ class Ship:
     def draw(self, window):
         # test rectangle
         #pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, self.w, self.h))
-
         window.blit(self.ship_img, (self.x, self.y))
 
     def get_ship_width(self):
