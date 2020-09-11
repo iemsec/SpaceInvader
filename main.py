@@ -6,6 +6,7 @@ import random
 from ship import Ship
 from player import Player
 from enemy import Enemy
+from laser import Laser
 
 
 pygame.font.init()
@@ -111,10 +112,12 @@ def main():
         # move enemies
         for enemy in enemies[:]:
             enemy.move()
+            enemy.move_lasers(enemy.vel, player)
             if enemy.y + enemy.get_ship_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
 
+        player.move_lasers(player_vel, enemies)
         # method get_pressed return a dict of all key if pressed or not
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -138,6 +141,8 @@ def main():
                 player.y += player_vel
             else:
                 player.y = HEIGHT - player.get_ship_height()
+        if keys[pygame.K_SPACE]:
+            player.shoot(-player_vel)
 
 
 if __name__ == '__main__':

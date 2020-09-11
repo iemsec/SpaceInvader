@@ -1,5 +1,5 @@
 import pygame
-from ship import Ship
+import ship
 
 class Laser:
     def __init__(self, x, y, img, vel):
@@ -16,10 +16,10 @@ class Laser:
         self.y += self.vel
 
     def off_screen(self, height):
-        return self.y > 0 and self.y < height
+        return not(self.y > 0 and self.y < height)
 
     def collision(self, obj):
-        if obj is Ship:
+        if isinstance(obj, ship.Ship) or obj is Laser:
             offset_x = obj.x - self.x
             offset_y = obj.y - self.y
-            return
+            return self.mask.overlap(obj.mask, (offset_x, offset_y)) != None
