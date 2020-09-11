@@ -39,24 +39,23 @@ COLOR_MAP = {
 
 def main():
     run = True
-    fps = 30
+    fps = 60
     level = 0
     lives = 5
     main_font= pygame.font.SysFont("comicsans", 50)
+    lost_font = pygame.font.SysFont("comicsans", 60)
 
     # Define enemies
     enemies = []
-    for i in range(10):
-        color = random.choice(tuple(COLOR_MAP.keys()))
-        x = random.randint(0, WIDTH)
-        y = random.randint(-1500, 0)
-        vel = random.randint(4, 7)
-        enemies.append(Enemy(x, y, (COLOR_MAP[color]), vel))
+    wave_length = 5
 
     player_vel = 5
 
     # define the player
     player = Player(300, 650, YELLOW_SPACE_SHIP, YELLOW_LASER)
+
+    lost = False
+    lost_count = 0
 
     clock = pygame.time.Clock()
 
@@ -69,8 +68,16 @@ def main():
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
 
+        # draw enemies
+        for enemy in enemies:
+            enemy.draw(WIN)
+
         # draw ship
         player.draw(WIN)
+
+        if lost:
+            lost_label = lost_font.render("Rage quit now looser !!!", 1, (255, 255, 255))
+            WIN.blit(lost_label,(WIDTH//2 - lost_label.get_width()//2, HEIGHT//2))
 
         pygame.display.update()
 
@@ -78,9 +85,35 @@ def main():
         clock.tick(fps)
         redraw_window()
 
+        if lives <= 0 or player.health < 0:
+            lost = True
+            lost_count += 1
+            if lost:
+                if lost_count > fps * 3:
+                    run = False
+                else:
+                    continue
+
+        if len(enemies)==0:
+            level += 1
+            wave_length += 5
+            for i in range(wave_length):
+                color = random.choice(tuple(COLOR_MAP.keys()))
+                x = random.randint(0, WIDTH-100)
+                y = random.randint(-1500, 0)
+                vel = random.randint(1, 4)
+                enemies.append(Enemy(x, y, (COLOR_MAP[color]), vel))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+        # move enemies
+        for enemy in enemies[:]:
+            enemy.move()
+            if enemy.y + enemy.get_ship_height() > HEIGHT:
+                lives -= 1
+                enemies.remove(enemy)
 
         # method get_pressed return a dict of all key if pressed or not
         keys = pygame.key.get_pressed()
