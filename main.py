@@ -78,7 +78,8 @@ def main():
             wave_length += 5
             for i in range(wave_length):
                 color = random.choice(tuple(COLOR_MAP.keys()))
-                # put 7 by default having a more dynamic way will be better (issue solved can't shoot blue)
+                # put 7 by default having a more dynamic way will be better
+                # (issue solved can't shoot blue when pop between 0 and 6)
                 x = random.randint(7, conf.WIDTH-100)
                 y = random.randint(-1500, 0)
                 vel = random.randint(1, 2)

@@ -1,22 +1,32 @@
 import pygame
 import ship
+import config as conf
+import player
 
 class Laser:
-    def __init__(self, x, y, img, vel):
+    def __init__(self, x, y, img, vel, obj):
         self.x = x
         self.y = y
         self.img = img
         self.vel =vel
         self.mask = pygame.mask.from_surface(self.img)
+        self.counting_image = 0
+        self.is_player = isinstance(obj, player.Player)
 
     def draw(self, window):
+        if self.is_player:
+            if self.counting_image % 2 == 0:
+                self.img = conf.YELLOW_LASER
+            else:
+                self.img = conf.YELLOW_LASER_BRIGHT
+            self.counting_image += 1
         window.blit(self.img, (self.x, self.y))
 
     def move(self):
         self.y += self.vel
 
-    def off_screen(self, height):
-        return not(self.y > 0 and self.y < height)
+    def off_screen(self):
+        return not(self.y > 0 and self.y < conf.HEIGHT)
 
     def collision(self, obj):
         if isinstance(obj, ship.Ship) or isinstance(obj, Laser):

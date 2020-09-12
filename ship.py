@@ -35,7 +35,7 @@ class Ship:
 
     def shoot(self, vel):
         if self.cool_down_counter == 0:
-            laser = Laser(self.x, self.y, self.laser_img, vel)
+            laser = Laser(self.x, self.y, self.laser_img, vel, self)
             self.lasers.append(laser)
             self.cool_down_counter = 1
 
@@ -43,7 +43,7 @@ class Ship:
         self.cooldown()
         for laser in self.lasers[:]:
             laser.move(vel)
-            if laser.off_screen(750):
+            if laser.off_screen():
                 self.lasers.remove(laser)
             elif laser.collision(obj):
                 obj.health -= 10
