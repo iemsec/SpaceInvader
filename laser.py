@@ -15,10 +15,12 @@ class Laser:
 
     def draw(self, window):
         if self.is_player:
-            if self.counting_image % 2 == 0:
+            if self.counting_image % 2 == 0 and self.counting_image % 3 == 0:
                 self.img = conf.YELLOW_LASER
-            else:
+            elif self.counting_image % 2 == 0:
                 self.img = conf.YELLOW_LASER_BRIGHT
+            else:
+                self.img = conf.YELLOW_LASER_WHITE
             self.counting_image += 1
         window.blit(self.img, (self.x, self.y))
 

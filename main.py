@@ -65,11 +65,10 @@ def main():
 
         if player.lost():
             lost_count += 1
-            if player.lost():
-                if lost_count > fps * 3:
-                    run = False
-                else:
-                    continue
+            if lost_count > fps * 3:
+                run = False
+            else:
+                continue
 
         if len(enemies) == 0:
             player.level += 1
