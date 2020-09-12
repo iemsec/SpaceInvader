@@ -1,5 +1,6 @@
 import pygame
 from ship import Ship
+import config as conf
 
 class Player(Ship):
 
@@ -28,3 +29,47 @@ class Player(Ship):
 
     def lost(self):
         return self.lives <= 0 or self.health < 0
+
+    def listen_event(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            if self.x - self.vel > 0:
+                self.x -= self.vel
+            else:
+                self.x = 0
+        if keys[pygame.K_RIGHT]:
+            if self.x < conf.WIDTH - self.get_ship_width():
+                self.x += self.vel
+            else:
+                self.x = conf.WIDTH - self.get_ship_width()
+        if keys[pygame.K_UP]:
+            if self.y - self.vel > 0:
+                self.y -= self.vel
+            else:
+                self.y = 0
+        if keys[pygame.K_DOWN]:
+            if self.y < conf.HEIGHT - self.get_ship_height():
+                self.y += self.vel
+            else:
+                self.y = conf.HEIGHT - self.get_ship_height()
+            if self.x - self.vel > 0:
+                self.x -= self.vel
+            else:
+                self.x = 0
+        if keys[pygame.K_RIGHT]:
+            if self.x < conf.WIDTH - self.get_ship_width():
+                self.x += self.vel
+            else:
+                self.x = conf.WIDTH - self.get_ship_width()
+        if keys[pygame.K_UP]:
+            if self.y - self.vel > 0:
+                self.y -= self.vel
+            else:
+                self.y = 0
+        if keys[pygame.K_DOWN]:
+            if self.y < conf.HEIGHT - self.get_ship_height():
+                self.y += self.vel
+            else:
+                self.y = conf.HEIGHT - self.get_ship_height()
+        if keys[pygame.K_SPACE]:
+            self.shoot(-self.vel)

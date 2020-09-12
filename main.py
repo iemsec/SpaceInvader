@@ -42,14 +42,13 @@ def redraw_window(player, enemies):
 
     pygame.display.update()
 
-
 def main():
     run = True
     fps = 60
 
     # Define enemies
     enemies = []
-    wave_length = 500
+    wave_length = 50
 
     # init speed movement of the player
     player_vel = 6
@@ -63,7 +62,6 @@ def main():
     # main loop
     while run:
         clock.tick(fps)
-        redraw_window(player, enemies)
 
         if player.lost():
             lost_count += 1
@@ -95,35 +93,15 @@ def main():
 
         player.move_lasers(player.vel, enemies)
         # method get_pressed return a dict of all key if pressed or not
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            # move with player_vel until reach origin it can do last move to reach 0
-            if player.x - player.vel > 0:
-                player.x -= player.vel
-            else:
-                player.x = 0
-        if keys[pygame.K_RIGHT]:
-            if player.x < conf.WIDTH - player.get_ship_width():
-                player.x += player.vel
-            else:
-                player.x = conf.WIDTH - player.get_ship_width()
-        if keys[pygame.K_UP]:
-            if player.y - player.vel > 0:
-                player.y -= player.vel
-            else:
-                player.y = 0
-        if keys[pygame.K_DOWN]:
-            if player.y < conf.HEIGHT - player.get_ship_height():
-                player.y += player.vel
-            else:
-                player.y = conf.HEIGHT - player.get_ship_height()
-        if keys[pygame.K_SPACE]:
-            player.shoot(-player.vel)
+
+        player.listen_event()
 
         # Quit on cross click
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+        redraw_window(player, enemies)
 
 
 if __name__ == '__main__':
