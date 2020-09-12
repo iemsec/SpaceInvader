@@ -7,7 +7,7 @@ pygame.font.init()
 WIDTH, HEIGHT = 750, 750
 
 # Font
-main_font= pygame.font.SysFont("comicsans", 50)
+main_font = pygame.font.SysFont("comicsans", 50)
 lost_font = pygame.font.SysFont("comicsans", 60)
 
 # load images
@@ -29,7 +29,9 @@ BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background
 
 # Init setting
 def intialize(lvl, liv):
+    # Declare settings
     global level
     global lives
+
     level = lvl
     lives = liv

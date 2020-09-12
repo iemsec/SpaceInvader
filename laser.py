@@ -19,7 +19,7 @@ class Laser:
         return not(self.y > 0 and self.y < height)
 
     def collision(self, obj):
-        if isinstance(obj, ship.Ship) or obj is Laser:
+        if isinstance(obj, ship.Ship) or isinstance(obj, Laser):
             offset_x = obj.x - self.x
             offset_y = obj.y - self.y
             return self.mask.overlap(obj.mask, (offset_x, offset_y)) != None

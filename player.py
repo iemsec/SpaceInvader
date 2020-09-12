@@ -4,12 +4,13 @@ import config as conf
 
 class Player(Ship):
 
-    def __init__(self,x, y, ship_img, laser_img, health=100):
+    def __init__(self,x, y, ship_img, laser_img, vel, health=100):
         super().__init__(x, y, health=health)
         self.ship_img = ship_img
         self.laser_img = laser_img
         self.mask = pygame.mask.from_surface(self.ship_img)
         self.max_health = health
+        self.vel = vel
 
     def move_lasers(self, vel, objs):
         self.cooldown()
@@ -23,3 +24,5 @@ class Player(Ship):
                         objs.remove(obj)
                         self.lasers.remove(laser)
 
+    def lost(self):
+        return conf.lives <= 0 or self.health < 0
