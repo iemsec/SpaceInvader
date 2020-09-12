@@ -49,7 +49,7 @@ def main():
 
     # Define enemies
     enemies = []
-    wave_length = 5
+    wave_length = 500
 
     # init speed movement of the player
     player_vel = 6

@@ -19,12 +19,12 @@ class Player(Ship):
             laser.move()
             if laser.off_screen():
                 self.lasers.remove(laser)
-                continue
             else:
                 for obj in objs[:]:
                     if laser.collision(obj):
                         objs.remove(obj)
-                        self.lasers.remove(laser)
+                        if laser in self.lasers:
+                            self.lasers.remove(laser)
 
     def lost(self):
         return self.lives <= 0 or self.health < 0
