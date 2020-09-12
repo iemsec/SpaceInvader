@@ -24,8 +24,8 @@ def redraw_window(player, enemies):
     # display background
     WIN.blit(conf.BG, (0, 0))
     # draw text
-    lives_label = conf.main_font.render(f"Lives : {conf.lives}", 1, (255, 255, 255))
-    level_label = conf.main_font.render(f"Level : {conf.level}", 1, (255, 255, 255))
+    lives_label = conf.main_font.render(f"Lives : {player.lives}", 1, (255, 255, 255))
+    level_label = conf.main_font.render(f"Level : {player.level}", 1, (255, 255, 255))
     WIN.blit(lives_label, (10, 10))
     WIN.blit(level_label, (conf.WIDTH - level_label.get_width() - 10, 10))
 
@@ -74,11 +74,12 @@ def main():
                     continue
 
         if len(enemies) == 0:
-            conf.level += 1
+            player.level += 1
             wave_length += 5
             for i in range(wave_length):
                 color = random.choice(tuple(COLOR_MAP.keys()))
-                x = random.randint(0, conf.WIDTH-100)
+                # put 7 by default having a more dynamic way will be better (issue solved can't shoot blue)
+                x = random.randint(7, conf.WIDTH-100)
                 y = random.randint(-1500, 0)
                 vel = random.randint(1, 2)
                 enemies.append(Enemy(x, y, (COLOR_MAP[color]), vel))
@@ -88,7 +89,7 @@ def main():
             enemy.move()
             enemy.move_lasers(enemy.vel, player)
             if enemy.y + enemy.get_ship_height() > conf.HEIGHT:
-                conf.lives -= 1
+                player.lives -= 1
                 enemies.remove(enemy)
 
         player.move_lasers(player.vel, enemies)
@@ -125,5 +126,4 @@ def main():
 
 
 if __name__ == '__main__':
-    conf.intialize(0, 5)
     main()
