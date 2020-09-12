@@ -1,5 +1,6 @@
 import pygame
 from ship import Ship
+import config as conf
 
 class Player(Ship):
 
@@ -14,7 +15,7 @@ class Player(Ship):
         self.cooldown()
         for laser in self.lasers[:]:
             laser.move()
-            if laser.off_screen(750):
+            if laser.off_screen(conf.HEIGHT):
                 self.lasers.remove(laser)
             else:
                 for obj in objs[:]:
