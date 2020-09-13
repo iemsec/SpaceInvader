@@ -9,6 +9,7 @@ WIDTH, HEIGHT = 750, 750
 # Font
 main_font = pygame.font.SysFont("comicsans", 50)
 lost_font = pygame.font.SysFont("comicsans", 60)
+title_font = pygame.font.SysFont("comicsans", 70)
 
 # load images
 RED_SPACE_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_red_small.png"))

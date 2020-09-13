@@ -42,7 +42,7 @@ class Ship:
     def move_lasers(self, vel, obj):
         self.cooldown()
         for laser in self.lasers[:]:
-            laser.move(vel)
+            laser.move()
             if laser.off_screen():
                 self.lasers.remove(laser)
             elif laser.collision(obj):

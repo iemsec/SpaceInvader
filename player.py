@@ -28,7 +28,7 @@ class Player(Ship):
                             self.lasers.remove(laser)
 
     def lost(self):
-        return self.lives <= 0 or self.health < 0
+        return self.lives <= 0 or self.health <= 0
 
     def listen_event(self):
         keys = pygame.key.get_pressed()
@@ -52,10 +52,6 @@ class Player(Ship):
                 self.y += self.vel
             else:
                 self.y = conf.HEIGHT - self.get_ship_height()
-            if self.x - self.vel > 0:
-                self.x -= self.vel
-            else:
-                self.x = 0
         if keys[pygame.K_RIGHT]:
             if self.x < conf.WIDTH - self.get_ship_width():
                 self.x += self.vel
@@ -72,4 +68,14 @@ class Player(Ship):
             else:
                 self.y = conf.HEIGHT - self.get_ship_height()
         if keys[pygame.K_SPACE]:
-            self.shoot(-self.vel)
+            self.shoot(-self.vel - 5)
+
+    def health_bar(self, window):
+        pygame.draw.rect(window,(255,0,0),(self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
+        green_size = ((self.health * self.max_health) // self.ship_img.get_width())
+        print(green_size)
+        pygame.draw.rect(window, (0, 255, 0),(self.x, self.y + self.ship_img.get_height() + 10, green_size, 10))
+
+    def draw(self, window):
+        super().draw(window)
+        self.health_bar(window)

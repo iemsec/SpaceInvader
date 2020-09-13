@@ -19,6 +19,11 @@ COLOR_MAP = {
     "blue": (conf.BLUE_SPACE_SHIP, conf.BLUE_LASER)
             }
 
+# just for test will be remove when implementing Game class
+def collide(obj1, obj2):
+    offset_x = obj1.x - obj2.x
+    offset_y = obj1.y - obj2.y
+    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None or obj2.mask.overlap(obj1.mask, (offset_x, offset_y)) != None
 
 def redraw_window(player, enemies):
     # display background
@@ -36,6 +41,7 @@ def redraw_window(player, enemies):
     # draw ship
     player.draw(WIN)
 
+
     if player.lost():
         lost_label = conf.lost_font.render("Rage quit now looser !!!", 1, (255, 255, 255))
         WIN.blit(lost_label, (conf.WIDTH // 2 - lost_label.get_width() // 2, conf.HEIGHT // 2))
@@ -43,12 +49,29 @@ def redraw_window(player, enemies):
     pygame.display.update()
 
 def main():
+
+    run = True
+    while run:
+        WIN.blit(conf.BG, (0, 0))
+        title_label = conf.title_font.render("Press the mouse to begin...", 1, (255, 255, 255))
+        WIN.blit(title_label, (conf.WIDTH // 2 - title_label.get_width() // 2, conf.HEIGHT // 2))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                main_game()
+
+
+
+def main_game():
     run = True
     fps = 60
 
     # Define enemies
     enemies = []
-    wave_length = 50
+    wave_length = 5
 
     # init speed movement of the player
     player_vel = 6
@@ -86,9 +109,15 @@ def main():
         for enemy in enemies[:]:
             enemy.move()
             enemy.move_lasers(enemy.vel, player)
+            if random.randint(0, 120) == 1:
+                enemy.shoot(enemy.vel + 1)
             if enemy.y + enemy.get_ship_height() > conf.HEIGHT:
                 player.lives -= 1
                 enemies.remove(enemy)
+            elif collide(player, enemy):
+                player.health -= 10
+                enemies.remove(enemy)
+
 
         player.move_lasers(player.vel, enemies)
         # method get_pressed return a dict of all key if pressed or not
@@ -99,6 +128,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+                quit()
 
         redraw_window(player, enemies)
 
