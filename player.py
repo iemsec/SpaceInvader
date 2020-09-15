@@ -2,9 +2,10 @@ import pygame
 from ship import Ship
 import config as conf
 
+
 class Player(Ship):
 
-    def __init__(self,x, y, ship_img, laser_img, vel, health=100, lives=5, level=0):
+    def __init__(self, x, y, ship_img, laser_img, vel, health=100, lives=5, level=0):
         super().__init__(x, y, health=health)
         self.lives = lives
         self.level = level
@@ -71,10 +72,11 @@ class Player(Ship):
             self.shoot(-self.vel - 5)
 
     def health_bar(self, window):
-        pygame.draw.rect(window,(255,0,0),(self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
+        pygame.draw.rect(window, (255, 0, 0),
+                         (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
         green_size = ((self.health * self.max_health) // self.ship_img.get_width())
         print(green_size)
-        pygame.draw.rect(window, (0, 255, 0),(self.x, self.y + self.ship_img.get_height() + 10, green_size, 10))
+        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.ship_img.get_height() + 10, green_size, 10))
 
     def draw(self, window):
         super().draw(window)

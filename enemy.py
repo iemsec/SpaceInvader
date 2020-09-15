@@ -2,6 +2,7 @@ import pygame
 from ship import Ship
 from laser import Laser
 
+
 class Enemy(Ship):
 
     def __init__(self, x, y, img, vel, health=100):

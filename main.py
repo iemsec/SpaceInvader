@@ -1,14 +1,11 @@
 import pygame
-import time
 import random
 import config as conf
 
 from player import Player
 from enemy import Enemy
 
-
 pygame.font.init()
-
 
 WIN = pygame.display.set_mode((conf.WIDTH, conf.HEIGHT))
 pygame.display.set_caption("Space Invader")
@@ -17,13 +14,17 @@ COLOR_MAP = {
     "red": (conf.RED_SPACE_SHIP, conf.RED_LASER),
     "green": (conf.GREEN_SPACE_SHIP, conf.GREEN_LASER),
     "blue": (conf.BLUE_SPACE_SHIP, conf.BLUE_LASER)
-            }
+}
+
 
 # just for test will be remove when implementing Game class
 def collide(obj1, obj2):
     offset_x = obj1.x - obj2.x
     offset_y = obj1.y - obj2.y
-    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None or obj2.mask.overlap(obj1.mask, (offset_x, offset_y)) != None
+    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) is not None or obj2.mask.overlap(obj1.mask,
+                                                                                               (offset_x,
+                                                                                                offset_y)) is not None
+
 
 def redraw_window(player, enemies):
     # display background
@@ -41,15 +42,14 @@ def redraw_window(player, enemies):
     # draw ship
     player.draw(WIN)
 
-
     if player.lost():
         lost_label = conf.lost_font.render("Rage quit now looser !!!", 1, (255, 255, 255))
         WIN.blit(lost_label, (conf.WIDTH // 2 - lost_label.get_width() // 2, conf.HEIGHT // 2))
 
     pygame.display.update()
 
-def main():
 
+def main():
     run = True
     while run:
         WIN.blit(conf.BG, (0, 0))
@@ -62,7 +62,6 @@ def main():
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 main_game()
-
 
 
 def main_game():
@@ -100,7 +99,7 @@ def main_game():
                 color = random.choice(tuple(COLOR_MAP.keys()))
                 # put 7 by default having a more dynamic way will be better
                 # (issue solved can't shoot blue when pop between 0 and 6)
-                x = random.randint(7, conf.WIDTH-100)
+                x = random.randint(7, conf.WIDTH - 100)
                 y = random.randint(-1500, 0)
                 vel = random.randint(1, 2)
                 enemies.append(Enemy(x, y, (COLOR_MAP[color]), vel))
@@ -117,7 +116,6 @@ def main_game():
             elif collide(player, enemy):
                 player.health -= 10
                 enemies.remove(enemy)
-
 
         player.move_lasers(player.vel, enemies)
         # method get_pressed return a dict of all key if pressed or not

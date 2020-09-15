@@ -1,4 +1,3 @@
-import pygame
 from laser import Laser
 
 
@@ -16,7 +15,7 @@ class Ship:
 
     def draw(self, window):
         # test rectangle
-        #pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, self.w, self.h))
+        # pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, self.w, self.h))
         window.blit(self.ship_img, (self.x, self.y))
         for laser in self.lasers:
             laser.draw(window)
